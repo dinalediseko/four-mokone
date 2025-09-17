@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Built Different for the Kingdom - Annual Convention</title>
+    <link rel="icon" href="images/4m logo.png" type="image">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            /* Prevents scrollbars from canvas overflow */
+            background-color: #01311f;
+            color: #f1f0eb;
+        }
+
+        /* Style for the countdown timer boxes */
+        .countdown-box {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(241, 240, 235, 0.05);
+            /* Off-white with transparency */
+            border: 1px solid rgba(196, 168, 88, 0.3);
+            /* Gold with transparency */
+        }
+
+        #days,
+        #hours,
+        #minutes,
+        #seconds {
+            color: #c4a858;
+            /* Gold color for numbers */
+        }
+
+        /* Canvas for particle animation */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Ensure content is above the canvas */
+        .content-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Custom styles for form input focus */
+        .form-input {
+            background-color: rgba(1, 49, 31, 0.8);
+            border-color: rgba(196, 168, 88, 0.5);
+            color: #f1f0eb;
+        }
+
+        .form-input::placeholder {
+            color: rgba(241, 240, 235, 0.6);
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(196, 168, 88, 0.4);
+            border-color: #c4a858;
+        }
+
+        /* Custom Button Style */
+        .cta-button {
+            background-color: #c4a858;
+            color: #01311f;
+        }
+
+        .cta-button:hover {
+            background-color: #dcbD6E;
+            /* Lighter gold for hover */
+        }
+
+        /* Success message styling */
+        #success-message {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .success-title {
+            color: #c4a858;
+        }
+    </style>
+</head>
+
+<body class="overflow-x-hidden">
+
+    <canvas id="particle-canvas"></canvas>
+
+    <main class="content-container min-h-screen flex flex-col items-center p-4 text-center">
+        <!-- This new wrapper will grow and center the content, pushing the footer down -->
+        <div class="flex-grow w-full flex flex-col items-center justify-center">
+            <!-- Main Content Area -->
+            <div class="w-full max-w-4xl mx-auto">
+
+                <!-- Logo Image -->
+                <div
+                    class="w-28 h-28 mx-auto mb-6 flex items-center justify-center rounded-full border-2 border-[#c4a858] border-opacity-40 bg-[#c4a858] bg-opacity-10 overflow-hidden">
+                    <img src="images/4m logo.png" alt="Convention Logo" class="w-full h-full object-contain p-2">
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-black uppercase tracking-wider mb-4">
+                    Built Different for the Kingdom
+                </h1>
+                <p class="text-lg md:text-2xl opacity-80 mb-8 max-w-2xl mx-auto">
+                    Inspired by Luke 17:20-21. Discover the Kingdom Within.
+                </p>
+
+                <!-- Countdown Timer -->
+                <div id="countdown-timer" class="flex justify-center gap-2 sm:gap-4 mb-10">
+                    <div class="countdown-box p-3 sm:p-4 rounded-lg w-20 sm:w-24">
+                        <div id="days" class="text-3xl sm:text-4xl font-bold">00</div>
+                        <div class="text-xs sm:text-sm text-gray-400">Days</div>
+                    </div>
+                    <div class="countdown-box p-3 sm:p-4 rounded-lg w-20 sm:w-24">
+                        <div id="hours" class="text-3xl sm:text-4xl font-bold">00</div>
+                        <div class="text-xs sm:text-sm text-gray-400">Hours</div>
+                    </div>
+                    <div class="countdown-box p-3 sm:p-4 rounded-lg w-20 sm:w-24">
+                        <div id="minutes" class="text-3xl sm:text-4xl font-bold">00</div>
+                        <div class="text-xs sm:text-sm text-gray-400">Minutes</div>
+                    </div>
+                    <div class="countdown-box p-3 sm:p-4 rounded-lg w-20 sm:w-24">
+                        <div id="seconds" class="text-3xl sm:text-4xl font-bold">00</div>
+                        <div class="text-xs sm:text-sm text-gray-400">Seconds</div>
+                    </div>
+                </div>
+
+                <!-- Registration Form Section -->
+                <div id="registration-section" class="w-full max-w-md mx-auto">
+                    <h2 class="text-xl font-bold mb-4">Be the First to Know!</h2>
+                    <p class="opacity-80 mb-6">Subscribe to get an exclusive preview of the official site before
+                        anyone else.</p>
+                    <form id="registration-form" class="flex flex-col sm:flex-row gap-4">
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required
+                            class="form-input flex-grow border rounded-md py-3 px-4 transition-all duration-300">
+                        <button type="submit"
+                            class="cta-button text-white font-bold py-3 px-8 rounded-md transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Success Message Section -->
+                <div id="success-message" class="hidden opacity-0 w-full max-w-md mx-auto p-6 rounded-lg countdown-box">
+                    <h2 class="text-2xl font-bold mb-2 success-title">Thank You!</h2>
+                    <p class="opacity-90">You're on the list! We'll notify you with an exclusive link as soon as you
+                        register for the convention.<br>Registrations close on the 01 October 205</p>
+                </div>
+
+                <!-- Error Message Section -->
+                <div id="error-message"
+                    class="hidden opacity-0 w-full max-w-md mx-auto p-6 rounded-lg bg-red-900 border border-red-700">
+                    <h2 class="text-2xl font-bold mb-2 text-red-300">Oops!</h2>
+                    <p class="opacity-90">Something went wrong. Please try again later.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer for social links -->
+        <footer class="w-full p-6 text-center text-gray-500">
+            <p>&copy; 2025 Annual Convention. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <script>
+        // --- Countdown Timer Logic ---
+        const countdownDate = new Date("October 3, 2025 00:00:00").getTime();
+
+        const countdownFunction = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown-timer").innerHTML = "<div class='text-3xl font-bold'>The Event is Live!</div>";
+            }
+        }, 1000);
+
+        // --- Form Submission Logic ---
+        const registrationForm = document.getElementById('registration-form');
+        const registrationSection = document.getElementById('registration-section');
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        const submitButton = registrationForm.querySelector('button[type="submit"]');
+
+        // IMPORTANT: Replace this with your actual Google Apps Script Web App URL
+        const googleScriptURL = 'https://script.google.com/macros/s/AKfycbwWPfSX6SR4RyvKEF0EtO8xx120CIs-fP83V8EPikmsWSFKGQnfQvmCAphgdVzqMYDxdA/exec';
+
+        registrationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Disable button to prevent multiple submissions
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+
+            fetch(googleScriptURL, {
+                method: 'POST',
+                body: new FormData(registrationForm)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // If response is not ok, throw an error to be caught by the catch block
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === 'success') {
+                        // Show success message
+                        registrationSection.style.display = 'none';
+                        successMessage.classList.remove('hidden');
+                        setTimeout(() => successMessage.classList.remove('opacity-0'), 10);
+                    } else {
+                        // If the script returns an error, show the error message
+                        throw new Error(data.message || 'Submission failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    // Show error message
+                    registrationSection.style.display = 'none';
+                    errorMessage.classList.remove('hidden');
+                    setTimeout(() => errorMessage.classList.remove('opacity-0'), 10);
+                });
+        });
+
+        // --- Lego Brick Animation Logic ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let bricksArray;
+        const legoColors = ['#f1f0eb', '#c4a858'];
+
+        // LegoBrick class
+        class LegoBrick {
+            constructor() {
+                this.width = Math.random() * 50 + 25;
+                this.height = this.width * 0.6;
+                this.x = Math.random() * (canvas.width - this.width);
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.speed = Math.random() * 2 + 1;
+                this.color = legoColors[Math.floor(Math.random() * legoColors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 1.5;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+                ctx.rotate(this.rotation * Math.PI / 180);
+
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 25; // This creates the blurred effect
+
+                // Use roundRect for softer corners, more brick-like
+                ctx.beginPath();
+                if (ctx.roundRect) { // Check for browser support
+                    ctx.roundRect(-this.width / 2, -this.height / 2, this.width, this.height, 4);
+                } else {
+                    ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+                }
+                ctx.fill();
+
+                ctx.restore();
+            }
+            update() {
+                this.y += this.speed;
+                this.rotation += this.rotationSpeed;
+                // If brick falls off screen, reset it to the top
+                if (this.y > canvas.height + this.height) {
+                    this.y = -this.height;
+                    this.x = Math.random() * canvas.width;
+                    this.speed = Math.random() * 2 + 1;
+                }
+                this.draw();
+            }
+        }
+
+        // Create brick array
+        function init() {
+            bricksArray = [];
+            let numberOfBricks = (canvas.height * canvas.width) / 20000;
+            for (let i = 0; i < numberOfBricks; i++) {
+                bricksArray.push(new LegoBrick());
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < bricksArray.length; i++) {
+                bricksArray[i].update();
+            }
+        }
+
+        // Resize event
+        window.addEventListener('resize', () => {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            init();
+        });
+
+        init();
+        animate();
+    </script>
+</body>
+
+</html>
