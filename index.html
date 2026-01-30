@@ -3,308 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Built Different for the Kingdom - MPowered YPD Convention</title>
+    <title>YPD 2026 Integrated Projects Calendar</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Library for PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+        :root {
+            --green: #0A3A08;
+            --white: #FAF2E1;
+            --gold: #E8B838;
+        }
         body {
-            font-family: 'Montserrat', sans-serif;
-            
-            background-color: #01311f;
-            color: #f1f0eb;
+            background-color: var(--white);
+            color: var(--green);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
         }
-        .countdown-box {
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: rgba(241, 240, 235, 0.05); 
-            border: 1px solid rgba(196, 168, 88, 0.3); 
+        .bg-green-primary { background-color: var(--green); }
+        .bg-gold-primary { background-color: var(--gold); }
+        .text-green-primary { color: var(--green); }
+        
+        .tab-active {
+            background-color: var(--gold);
+            color: var(--green);
+            font-weight: bold;
+            border-bottom: 4px solid var(--green);
         }
-        #days, #hours, #minutes, #seconds {
-            color: #c4a858; 
+        .event-card {
+            border-left: 5px solid transparent;
+            transition: all 0.2s ease;
         }
-       
-        #particle-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+        .event-card:hover {
+            transform: translateY(-2px);
         }
-        .content-container {
-            position: relative;
-            z-index: 2;
-        }
-    
-        .form-input {
-            background-color: rgba(1, 49, 31, 0.8);
-            border-color: rgba(196, 168, 88, 0.5);
-            color: #f1f0eb;
-        }
-        .form-input::placeholder {
-            color: rgba(241, 240, 235, 0.6);
-        }
-        .form-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(196, 168, 88, 0.4);
-            border-color: #c4a858;
+        .event-episcopal { border-left-color: var(--gold); background-color: white; }
+        .event-conference { border-left-color: var(--green); background-color: white; }
+        
+        .tabs-container::-webkit-scrollbar { display: none; }
+        .tabs-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @media print {
+            .no-print { display: none !important; }
         }
         
-        .cta-button {
-            background-color: #c4a858;
-            color: #01311f;
-        }
-        .cta-button:hover {
-            background-color: #dcbD6E; 
-        }
-      
-        #success-message {
-            transition: opacity 0.5s ease-in-out;
-        }
-        .success-title {
-            color: #c4a858;
+        /* Specific styling for the PDF export to maintain the look */
+        .pdf-export-mode {
+            background-color: var(--white) !important;
+            padding: 20px !important;
         }
     </style>
 </head>
-<body class="overflow-x-hidden">
+<body class="min-h-screen">
 
-    <canvas id="particle-canvas"></canvas>
-
-    <main class="content-container min-h-screen flex flex-col items-center p-4 text-center">
-       
-        <div class="flex-grow w-full flex flex-col items-center justify-center">
-           
-            <div class="w-full max-w-4xl mx-auto">
-                
-             
-                <div class="w-28 h-28 mx-auto mb-6 flex items-center justify-center rounded-full border-2 border-[#c4a858] border-opacity-40 bg-[#c4a858] bg-opacity-10 overflow-hidden">
-                <img src="images/4m logo.png" alt="Convention Logo" class="w-full h-full object-contain p-2">
+    <div id="full-app-container">
+        <!-- Header -->
+        <header class="bg-green-primary text-[#FAF2E1] p-6 md:p-10 shadow-xl border-b-4 border-gold">
+            <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
+                <!-- Logo Image -->
+                <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 flex items-center justify-center rounded-full border-2 border-[#c4a858] border-opacity-40 bg-[#c4a858] bg-opacity-10 overflow-hidden">
+                    <img src="images/4m logo.png" alt="Convention Logo" class="w-full h-full object-contain p-2" onerror="this.parentElement.innerHTML='<span class=\'text-gold-primary font-bold\'>YPD</span>'">
                 </div>
 
-                <h1 class="text-5xl md:text-7xl font-black uppercase tracking-wider mb-4">
-                    Built Different for the Kingdom
+                <h1 class="text-3xl md:text-5xl font-black uppercase tracking-wider mb-2">
+                    God's creative power
                 </h1>
-                <p class="text-lg md:text-2xl opacity-80 mb-8 max-w-2xl mx-auto">
-                    Inspired by Luke 17:20-21. Discover the Kingdom Within.
+                <p class="text-sm md:text-lg opacity-80 mb-6 max-w-2xl mx-auto italic">
+                    Inspired by Proverbs 16:9. <br>"In their hearts humans plan their course, but the Lord establishes their steps."
                 </p>
-
-                <!-- Countdown Timer -->
-                <div id="countdown-timer" class="flex justify-center gap-2 sm:gap-4 mb-10">
-                    <div class="countdown-box p-3 sm:p-4 rounded-lg w-20 sm:w-24">
-                        <div id="days" class="text-3xl sm:text-4xl font-bold">00</div>
-                        <div class="text-xs sm:text-sm text-gray-400">Days</div>
-                    </div>
-                    <div class="countdown-box p-3 sm:p-4 rounded-lg w-20 sm:w-24">
-                        <div id="hours" class="text-3xl sm:text-4xl font-bold">00</div>
-                        <div class="text-xs sm:text-sm text-gray-400">Hours</div>
-                    </div>
-                    <div class="countdown-box p-3 sm:p-4 rounded-lg w-20 sm:w-24">
-                        <div id="minutes" class="text-3xl sm:text-4xl font-bold">00</div>
-                        <div class="text-xs sm:text-sm text-gray-400">Minutes</div>
-                    </div>
-                    <div class="countdown-box p-3 sm:p-4 rounded-lg w-20 sm:w-24">
-                        <div id="seconds" class="text-3xl sm:text-4xl font-bold">00</div>
-                        <div class="text-xs sm:text-sm text-gray-400">Seconds</div>
-                    </div>
-                </div>
-
-                <!-- n Form Section -->
-                <div id="registration-section" class="w-full max-w-md mx-auto">
-                    <h2 class="text-xl font-bold mb-4">Be the First to Know!</h2>
-                    <p class="opacity-80 mb-6">Subscribe now to get an exclusive preview of the official site before anyone else.</p>
-                    <form id="registration-form" class="flex flex-col sm:flex-row gap-4">
-                        <input type="email" id="email" name="email" placeholder="Enter your email" required class="form-input flex-grow border rounded-md py-3 px-4 transition-all duration-300">
-                        <button type="submit" class="cta-button text-white font-bold py-3 px-8 rounded-md transition-all duration-300 transform hover:scale-105 shadow-lg">
-                            Subscribe Now
-                        </button>
-                    </form>
-                </div>
                 
-                <!-- Success Message Section -->
-                <div id="success-message" class="hidden opacity-0 w-full max-w-md mx-auto p-6 rounded-lg countdown-box">
-                     <h2 class="text-2xl font-bold mb-2 success-title">Thank You!</h2>
-                     <p class="opacity-90">You're on the list! We'll notify you with an exclusive link as soon as you register for the conference convention. <br> Registrations close on the 1st of October 2025 </p>
-                </div>
-                
-                <!-- Error Message Section -->
-                <div id="error-message" class="hidden opacity-0 w-full max-w-md mx-auto p-6 rounded-lg bg-red-900 border border-red-700">
-                     <h2 class="text-2xl font-bold mb-2 text-red-300">Oops!</h2>
-                     <p class="opacity-90">Something went wrong. Please try again later.</p>
+                <div class="border-t border-gold/30 pt-4 w-full max-w-xl">
+                    <h2 class="text-lg md:text-xl font-bold tracking-widest uppercase">19th Episcopal District</h2>
+                    <p class="text-gold-primary font-semibold text-xs md:text-sm">Mangena Maake Mokone Memorial Conference YPD</p>
                 </div>
 
+                <div class="mt-8 no-print">
+                    <button onclick="exportToPDF()" class="bg-gold-primary text-green-primary px-6 py-2 rounded-full text-sm font-bold hover:bg-yellow-500 transition shadow-md flex items-center gap-2 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download PDF Calendar
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Legend -->
+        <div class="max-w-6xl mx-auto px-4 mt-6 no-print">
+            <div class="flex flex-row justify-center gap-6 bg-white/50 p-3 rounded-xl border border-gold/30">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 bg-gold-primary rounded-full"></span>
+                    <span class="text-xs font-bold">Episcopal</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 bg-green-primary rounded-full"></span>
+                    <span class="text-xs font-bold">Conference</span>
+                </div>
             </div>
         </div>
-        
-        <!-- Footer for social links -->
-        <footer class="w-full p-6 text-center text-gray-500">
-  <p>
-    &copy; 2025 Annual Convention. All rights reserved. 
-    Designed by 
-    <a href="https://dseikou.co.za" target="_blank" rel="noopener noreferrer" 
-       class="text-[#c4a858] hover:underline hover:text-[#dcbD6E] transition">
-       D'SEIKOU
-    </a>
-  </p>
-</footer>
-    </main>
+
+        <!-- Navigation Tabs -->
+        <nav class="max-w-6xl mx-auto px-2 mt-6 no-print">
+            <div class="tabs-container flex overflow-x-auto gap-1 border-b border-green-primary/10 px-2 justify-start md:justify-center">
+                <button onclick="showQuarter(1)" id="tab1" class="whitespace-nowrap px-6 py-3 rounded-t-xl transition text-sm tab-active">Q1: Jan - Mar</button>
+                <button onclick="showQuarter(2)" id="tab2" class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q2: Apr - Jun</button>
+                <button onclick="showQuarter(3)" id="tab3" class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q3: Jul - Sep</button>
+                <button onclick="showQuarter(4)" id="tab4" class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q4: Oct - Dec</button>
+            </div>
+        </nav>
+
+        <!-- Calendar Content -->
+        <main id="export-container" class="max-w-6xl mx-auto px-4 py-6 mb-20 bg-transparent">
+            <div id="calendar-view" class="grid gap-6">
+                <!-- Content Injected via JS -->
+            </div>
+        </main>
+    </div>
 
     <script>
-        // --- Countdown Timer Logic ---
-        const countdownDate = new Date("October 3, 2025 00:00:00").getTime();
-
-        const countdownFunction = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = countdownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = String(days).padStart(2, '0');
-            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
-            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
-            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
-
-            if (distance < 0) {
-                clearInterval(countdownFunction);
-                document.getElementById("countdown-timer").innerHTML = "<div class='text-3xl font-bold'>The Event is Live!</div>";
-            }
-        }, 1000);
-
-        // --- Form Submission Logic ---
-        const registrationForm = document.getElementById('registration-form');
-        const registrationSection = document.getElementById('registration-section');
-        const successMessage = document.getElementById('success-message');
-        const errorMessage = document.getElementById('error-message');
-        const submitButton = registrationForm.querySelector('button[type="submit"]');
-
-        // IMPORTANT: Google Apps Script Web App URL
-        const googleScriptURL = 'https://script.google.com/macros/s/AKfycbwWPfSX6SR4RyvKEF0EtO8xx120CIs-fP83V8EPikmsWSFKGQnfQvmCAphgdVzqMYDxdA/exec';
-
-        registrationForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+        const events = [
+            // QUARTER 1 - JAN (Planning Meetings Only)
+            { q: 1, date: "2026-01-30", title: "CONFERENCE PLANNING MEETING", cat: "Conference", desc: "Executive Session for 2026 Roadmap" },
+            { q: 1, date: "2026-01-31", title: "WMS Planning Meeting", cat: "Conference", desc: "Collaborative Planning Session with WMS" },
             
-            // Disable button to prevent multiple submissions
-            submitButton.disabled = true;
-            submitButton.textContent = 'Submitting...';
+            // QUARTER 1 - FEB (Includes recurring logic placeholders)
+            { q: 1, date: "2026-02-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Budget Kickoff" },
+            { q: 1, date: "2026-02-11", title: "Stars & Sunshine Faith Fun day", cat: "Episcopal", desc: "Allen Star Coordinators" },
+            { q: 1, date: "2026-02-11", title: "Leadership Incubator", cat: "Conference", desc: "PPC Training Series" },
+            { q: 1, date: "2026-02-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Awareness Drive" },
+            { q: 1, date: "2026-02-16", title: "Minutes Writing Masterclass", cat: "Episcopal", desc: "Recording Secretaries Training" },
+            { q: 1, date: "2026-02-18", title: "Memorial Service Workshop", cat: "Episcopal", desc: "Monique Gonzalez Session" },
+            { q: 1, date: "2026-02-25", title: "Little Stars, Big Dreams", cat: "Episcopal", desc: "Allen Star Coordinators" },
+            { q: 1, date: "2026-02-28", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-            fetch(googleScriptURL, { 
-                method: 'POST', 
-                body: new FormData(registrationForm)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    // If response is not ok, throw an error to be caught by the catch block
-                    throw new Error('Network response was not ok');
+            // QUARTER 1 - MAR
+            { q: 1, date: "2026-03-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 1, date: "2026-03-07", title: "Leadership Retreat", cat: "Conference", desc: "PPC Full-day Event" },
+            { q: 1, date: "2026-03-15", title: "VR&N: The Talk", cat: "Conference", desc: "Quarterly Voter Rights Discussion" },
+            { q: 1, date: "2026-03-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+
+            // QUARTER 2 - APR (Recurring shifted for Indaba)
+            { q: 2, date: "2026-04-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 2, date: "2026-04-08", title: "Parliamentary Simulation", cat: "Episcopal", desc: "Leadership Practicum" },
+            { q: 2, date: "2026-04-14", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive (Shifted for Merapelo)" },
+            { q: 2, date: "2026-04-15", title: "Merapelo Seminar", cat: "Episcopal", desc: "Worship Director" },
+            { q: 2, date: "2026-04-24", title: "LEADERSHIP INDABA Begins", cat: "Conference", desc: "Physical Event: Know Your Rights Workshop" },
+            { q: 2, date: "2026-04-29", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review (Shifted for Indaba)" },
+
+            // QUARTER 2 - MAY/JUN
+            { q: 2, date: "2026-05-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 2, date: "2026-05-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 2, date: "2026-05-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 2, date: "2026-06-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 2, date: "2026-06-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 2, date: "2026-06-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+
+            // QUARTER 3 - JUL/AUG/SEP
+            { q: 3, date: "2026-07-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 3, date: "2026-07-02", title: "LTI (Leadership Training)", cat: "Conference", desc: "PPC July 2-5" },
+            { q: 3, date: "2026-07-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 3, date: "2026-07-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 3, date: "2026-08-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 3, date: "2026-08-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 3, date: "2026-08-19", title: "Merapelo Convention", cat: "Episcopal", desc: "Worship Director" },
+            { q: 3, date: "2026-08-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 3, date: "2026-09-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 3, date: "2026-09-11", title: "ANNUAL CONVENTION", cat: "Conference", desc: "Main Conference Event" },
+            { q: 3, date: "2026-09-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 3, date: "2026-09-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+
+            // QUARTER 4 - OCT/NOV/DEC
+            { q: 4, date: "2026-10-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 4, date: "2026-10-07", title: "Annual Conference", cat: "Conference", desc: "PPC Oct 7-11" },
+            { q: 4, date: "2026-10-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 4, date: "2026-10-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 4, date: "2026-11-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 4, date: "2026-11-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 4, date: "2026-11-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 4, date: "2026-12-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 4, date: "2026-12-15", title: "VR&N: The Talk", cat: "Conference", desc: "Year-end Finale" },
+            { q: 4, date: "2026-12-31", title: "Financial Savvy", cat: "Conference", desc: "Annual Financial Close" }
+        ];
+
+        let currentQ = 1;
+
+        function showQuarter(q) {
+            currentQ = q;
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('tab-active'));
+            document.getElementById(`tab${q}`).classList.add('tab-active');
+
+            const container = document.getElementById('calendar-view');
+            container.innerHTML = '';
+
+            const filteredEvents = events.filter(e => e.q === q).sort((a,b) => new Date(a.date) - new Date(b.date));
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            let startMonth = (q-1) * 3;
+            let targetMonths = monthNames.slice(startMonth, startMonth + 3);
+
+            targetMonths.forEach(month => {
+                const monthEvents = filteredEvents.filter(e => new Date(e.date).getMonth() === monthNames.indexOf(month));
+                
+                if (monthEvents.length > 0) {
+                    const monthSection = document.createElement('div');
+                    monthSection.className = 'mb-8';
+                    monthSection.innerHTML = `<h2 class="text-xl font-bold border-l-4 border-green-primary pl-3 mb-4 uppercase tracking-wider text-green-900">${month} 2026</h2>`;
+                    
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-4';
+
+                    monthEvents.forEach(ev => {
+                        const card = document.createElement('div');
+                        const isEpiscopal = ev.cat === 'Episcopal';
+                        card.className = `event-card p-4 shadow-sm border border-stone-200 rounded-lg flex flex-col justify-between ${isEpiscopal ? 'event-episcopal' : 'event-conference'}`;
+                        
+                        const dateObj = new Date(ev.date);
+                        const day = dateObj.getDate();
+
+                        card.innerHTML = `
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-[10px] font-black uppercase tracking-widest ${isEpiscopal ? 'text-yellow-600' : 'text-green-700'}">${ev.cat}</span>
+                                <div class="bg-green-primary text-white text-xs font-bold px-2 py-1 rounded">
+                                    ${day} ${month.substring(0,3)}
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-green-900 leading-tight mb-1">${ev.title}</h3>
+                            <p class="text-xs text-stone-600 italic leading-relaxed">${ev.desc}</p>
+                        `;
+                        grid.appendChild(card);
+                    });
+                    monthSection.appendChild(grid);
+                    container.appendChild(monthSection);
                 }
-                return response.json();
-            })
-            .then(data => {
-                if(data.result === 'success') {
-                    // Show success message
-                    registrationSection.style.display = 'none';
-                    successMessage.classList.remove('hidden');
-                    setTimeout(() => successMessage.classList.remove('opacity-0'), 10);
-                } else {
-                    // If the script returns an error, show the error message
-                    throw new Error(data.message || 'Submission failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                // Show error message
-                registrationSection.style.display = 'none';
-                errorMessage.classList.remove('hidden');
-                setTimeout(() => errorMessage.classList.remove('opacity-0'), 10);
             });
-        });
+        }
 
-        // --- Lego Brick Animation Logic ---
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        async function exportToPDF() {
+            // We export the entire container including the high-impact header
+            const element = document.getElementById('full-app-container');
+            
+            // Configuration for PDF
+            const opt = {
+                margin: 0,
+                filename: `YPD_2026_Q${currentQ}_Calendar.pdf`,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { 
+                    scale: 2, 
+                    useCORS: true, 
+                    letterRendering: true,
+                    scrollY: 0
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
 
-        let bricksArray;
-        const legoColors = ['#f1f0eb', '#c4a858'];
-
-        // LegoBrick class
-        class LegoBrick {
-            constructor() {
-                this.width = Math.random() * 50 + 25;
-                this.height = this.width * 0.6;
-                this.x = Math.random() * (canvas.width - this.width);
-                this.y = Math.random() * canvas.height - canvas.height;
-                this.speed = Math.random() * 2 + 1;
-                this.color = legoColors[Math.floor(Math.random() * legoColors.length)];
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = (Math.random() - 0.5) * 1.5;
-            }
-            draw() {
-                ctx.save();
-                ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-                ctx.rotate(this.rotation * Math.PI / 180);
-                
-                ctx.fillStyle = this.color;
-                ctx.shadowColor = this.color;
-                ctx.shadowBlur = 25; // This creates the blurred effect
-                
-                // Use roundRect for softer corners, more brick-like
-                ctx.beginPath();
-                if (ctx.roundRect) { // Check for browser support
-                    ctx.roundRect(-this.width / 2, -this.height / 2, this.width, this.height, 4);
-                } else {
-                    ctx.rect(-this.width / 2, -this.height / 2, this.width, this.height);
-                }
-                ctx.fill();
-                
-                ctx.restore();
-            }
-            update() {
-                this.y += this.speed;
-                this.rotation += this.rotationSpeed;
-                // If brick falls off screen, reset it to the top
-                if (this.y > canvas.height + this.height) {
-                    this.y = -this.height;
-                    this.x = Math.random() * canvas.width;
-                    this.speed = Math.random() * 2 + 1;
-                }
-                this.draw();
+            // Hide the download button and tabs during the export
+            const noPrintElements = document.querySelectorAll('.no-print');
+            noPrintElements.forEach(el => el.style.display = 'none');
+            
+            try {
+                await html2pdf().set(opt).from(element).save();
+            } catch (err) {
+                console.error("PDF Export failed", err);
+            } finally {
+                // Restore visibility
+                noPrintElements.forEach(el => el.style.display = '');
             }
         }
 
-        // Create brick array
-        function init() {
-            bricksArray = [];
-            let numberOfBricks = (canvas.height * canvas.width) / 20000;
-            for (let i = 0; i < numberOfBricks; i++) {
-                bricksArray.push(new LegoBrick());
-            }
-        }
-
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, innerWidth, innerHeight);
-            for (let i = 0; i < bricksArray.length; i++) {
-                bricksArray[i].update();
-            }
-        }
-
-        // Resize event
-        window.addEventListener('resize', () => {
-            canvas.width = innerWidth;
-            canvas.height = innerHeight;
-            init();
-        });
-
-        init();
-        animate();
+        window.onload = () => showQuarter(1);
     </script>
 </body>
 </html>
-
-
-
-
