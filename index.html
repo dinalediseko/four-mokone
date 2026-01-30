@@ -121,68 +121,109 @@
 
     <script>
         const events = [
-            // QUARTER 1 - JAN (Planning Meetings Only)
-            { q: 1, date: "2026-01-30", title: "CONFERENCE PLANNING MEETING", cat: "Conference", desc: "Executive Session for 2026 Roadmap" },
-            { q: 1, date: "2026-01-31", title: "WMS Planning Meeting", cat: "Conference", desc: "Collaborative Planning Session with WMS" },
-            
-            // QUARTER 1 - FEB (Includes recurring logic placeholders)
-            { q: 1, date: "2026-02-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Budget Kickoff" },
-            { q: 1, date: "2026-02-11", title: "Stars & Sunshine Faith Fun day", cat: "Episcopal", desc: "Allen Star Coordinators" },
-            { q: 1, date: "2026-02-11", title: "Leadership Incubator", cat: "Conference", desc: "PPC Training Series" },
-            { q: 1, date: "2026-02-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Awareness Drive" },
-            { q: 1, date: "2026-02-16", title: "Minutes Writing Masterclass", cat: "Episcopal", desc: "Recording Secretaries Training" },
-            { q: 1, date: "2026-02-18", title: "Memorial Service Workshop", cat: "Episcopal", desc: "Monique Gonzalez Session" },
-            { q: 1, date: "2026-02-25", title: "Little Stars, Big Dreams", cat: "Episcopal", desc: "Allen Star Coordinators" },
-            { q: 1, date: "2026-02-28", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    // QUARTER 1 - JAN
+    { q: 1, date: "2026-01-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Budget Kickoff" },
+    { q: 1, date: "2026-01-30", title: "Adopts a School Project Relaunch", cat: "Episcopal", desc: "Membership & Outreach Initiative" },
+    { q: 1, date: "2026-01-30", title: "CONFERENCE PLANNING MEETING", cat: "Conference", desc: "Executive Session for 2026 Roadmap" },
+    { q: 1, date: "2026-01-31", title: "WMS Planning Meeting", cat: "Conference", desc: "Collaborative Planning Session with WMS" },
+    { q: 1, date: "2026-01-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    
+    // QUARTER 1 - FEB
+    { q: 1, date: "2026-02-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 1, date: "2026-02-01", title: "Media Team Formation", cat: "Technology", desc: "Establishment of social media & content team" },
+    { q: 1, date: "2026-02-01", title: "Educational & Job Support Group", cat: "Episcopal", desc: "Group establishment for opportunities" },
+    { q: 1, date: "2026-02-01", title: "Self-Denial Promotion", cat: "Special", desc: "Component-wide awareness drive" },
+    { q: 1, date: "2026-02-11", title: "Stars & Sunshine Faith Fun day", cat: "Episcopal", desc: "Allen Star Coordinators" },
+    { q: 1, date: "2026-02-11", title: "Leadership Incubator", cat: "Conference", desc: "PPC Training Series" },
+    { q: 1, date: "2026-02-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Awareness Drive" },
+    { q: 1, date: "2026-02-16", title: "Minutes Writing Masterclass", cat: "Episcopal", desc: "Recording Secretaries Training" },
+    { q: 1, date: "2026-02-18", title: "Self-Denial Contest Begins", cat: "Special", desc: "Internal Conference-wide Contest" },
+    { q: 1, date: "2026-02-18", title: "Memorial Service Workshop", cat: "Episcopal", desc: "Monique Gonzalez Session" },
+    { q: 1, date: "2026-02-25", title: "Debate Series: Group 1", cat: "Episcopal", desc: "Membership & Outreach Debate" },
+    { q: 1, date: "2026-02-25", title: "Little Stars, Big Dreams", cat: "Episcopal", desc: "Allen Star Coordinators" },
+    { q: 1, date: "2026-02-25", title: "Teenage Pregnancy Awareness", cat: "Episcopal", desc: "3rd Vice President (TBC)" },
+    { q: 1, date: "2026-02-26", title: "Committee Revival Workshop", cat: "Episcopal", desc: "2nd Vice President" },
+    { q: 1, date: "2026-02-27", title: "YPD Boutique", cat: "Episcopal", desc: "Official Boutique Launch/Sale" },
+    { q: 1, date: "2026-02-28", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-            // QUARTER 1 - MAR
-            { q: 1, date: "2026-03-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 1, date: "2026-03-07", title: "Leadership Retreat", cat: "Conference", desc: "PPC Full-day Event" },
-            { q: 1, date: "2026-03-15", title: "VR&N: The Talk", cat: "Conference", desc: "Quarterly Voter Rights Discussion" },
-            { q: 1, date: "2026-03-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    // QUARTER 1 - MAR
+    { q: 1, date: "2026-03-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 1, date: "2026-03-03", title: "Self-Denial Contest Ends", cat: "Special", desc: "Final day of internal contest" },
+    { q: 1, date: "2026-03-05", title: "Self-Denial Promotion", cat: "Special", desc: "Secondary promotion drive" },
+    { q: 1, date: "2026-03-07", title: "Leadership Retreat", cat: "Conference", desc: "PPC Full-day Event" },
+    { q: 1, date: "2026-03-14", title: "Technology Training 1", cat: "Technology", desc: "Canva, Zoom, Social Media Ethics" },
+    { q: 1, date: "2026-03-15", title: "VR&N: The Talk", cat: "Conference", desc: "Quarterly Voter Rights Discussion" },
+    { q: 1, date: "2026-03-25", title: "Debate Series: Group 2", cat: "Episcopal", desc: "Membership & Outreach Debate" },
+    { q: 1, date: "2026-03-25", title: "Donation Forms Promotion", cat: "Conference", desc: "Promotion for Leadership Indaba" },
+    { q: 1, date: "2026-03-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-            // QUARTER 2 - APR (Recurring shifted for Indaba)
-            { q: 2, date: "2026-04-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 2, date: "2026-04-08", title: "Parliamentary Simulation", cat: "Episcopal", desc: "Leadership Practicum" },
-            { q: 2, date: "2026-04-14", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive (Shifted for Merapelo)" },
-            { q: 2, date: "2026-04-15", title: "Merapelo Seminar", cat: "Episcopal", desc: "Worship Director" },
-            { q: 2, date: "2026-04-24", title: "LEADERSHIP INDABA Begins", cat: "Conference", desc: "Physical Event: Know Your Rights Workshop" },
-            { q: 2, date: "2026-04-29", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review (Shifted for Indaba)" },
+    // QUARTER 2 - APR
+    { q: 2, date: "2026-04-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 2, date: "2026-04-08", title: "Parliamentary Simulation", cat: "Episcopal", desc: "Leadership Practicum" },
+    { q: 2, date: "2026-04-14", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+    { q: 2, date: "2026-04-15", title: "Merapelo Seminar", cat: "Episcopal", desc: "Natal, West & Mokone (Worship Dir.)" },
+    { q: 2, date: "2026-04-15", title: "My Body, My Space Safety", cat: "Episcopal", desc: "Allen Star Coordinators" },
+    { q: 2, date: "2026-04-22", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 1" },
+    { q: 2, date: "2026-04-24", title: "LEADERSHIP INDABA / KNOW YOUR CONSTITUTION", cat: "Conference", desc: "Indaba Launch & Know Your Rights" },
+    { q: 2, date: "2026-04-25", title: "Youth Explosion Revival", cat: "Episcopal", desc: "Membership Outreach" },
+    { q: 2, date: "2026-04-26", title: "Self-Denial Final Promotion", cat: "Special", desc: "Pre-program drive" },
+    { q: 2, date: "2026-04-29", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 2" },
+    { q: 2, date: "2026-04-30", title: "Conference YPD Website Launch", cat: "Technology", desc: "Design & Development Completion" },
+    { q: 2, date: "2026-04-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-            // QUARTER 2 - MAY/JUN
-            { q: 2, date: "2026-05-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 2, date: "2026-05-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-            { q: 2, date: "2026-05-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-            { q: 2, date: "2026-06-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 2, date: "2026-06-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-            { q: 2, date: "2026-06-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    // QUARTER 2 - MAY/JUN
+    { q: 2, date: "2026-05-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 2, date: "2026-05-06", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 3" },
+    { q: 2, date: "2026-05-06", title: "Merapelo Seminar", cat: "Episcopal", desc: "Orangia & East (Worship Dir.)" },
+    { q: 2, date: "2026-05-07", title: "Self-Denial Program Begins", cat: "Special", desc: "May 7-14 Special Program" },
+    { q: 2, date: "2026-05-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+    { q: 2, date: "2026-05-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    { q: 2, date: "2026-06-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 2, date: "2026-06-06", title: "Technology Guidelines", cat: "Technology", desc: "Area & Local level establishing guide" },
+    { q: 2, date: "2026-06-13", title: "Technology Training 2", cat: "Technology", desc: "Email Etiquette & Cybersecurity" },
+    { q: 2, date: "2026-06-15", title: "Campus Ministry Establishment", cat: "Episcopal", desc: "Establishing ministry near varsity campuses" },
+    { q: 2, date: "2026-06-15", title: "Parliamentary Circle Meeting", cat: "Episcopal", desc: "Mid-June Parliamentarian session" },
+    { q: 2, date: "2026-06-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-            // QUARTER 3 - JUL/AUG/SEP
-            { q: 3, date: "2026-07-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 3, date: "2026-07-02", title: "LTI (Leadership Training)", cat: "Conference", desc: "PPC July 2-5" },
-            { q: 3, date: "2026-07-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-            { q: 3, date: "2026-07-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-            { q: 3, date: "2026-08-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 3, date: "2026-08-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-            { q: 3, date: "2026-08-19", title: "Merapelo Convention", cat: "Episcopal", desc: "Worship Director" },
-            { q: 3, date: "2026-08-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-            { q: 3, date: "2026-09-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 3, date: "2026-09-11", title: "ANNUAL CONVENTION", cat: "Conference", desc: "Main Conference Event" },
-            { q: 3, date: "2026-09-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-            { q: 3, date: "2026-09-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    // QUARTER 3 - JUL/AUG/SEP
+    { q: 3, date: "2026-07-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 3, date: "2026-07-01", title: "Educational Capacity Building", cat: "Episcopal", desc: "Workshop for members" },
+    { q: 3, date: "2026-07-02", title: "LTI (Leadership Training)", cat: "Conference", desc: "PPC July 2-5" },
+    { q: 3, date: "2026-07-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+    { q: 3, date: "2026-07-29", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 4" },
+    { q: 3, date: "2026-07-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    { q: 3, date: "2026-08-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 3, date: "2026-08-11", title: "Donation Forms Promotion", cat: "Conference", desc: "Promotion for Annual Convention" },
+    { q: 3, date: "2026-08-12", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 5" },
+    { q: 3, date: "2026-08-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+    { q: 3, date: "2026-08-19", title: "Merapelo Convention", cat: "Episcopal", desc: "East & Natal (Worship Director)" },
+    { q: 3, date: "2026-08-19", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 6" },
+    { q: 3, date: "2026-08-20", title: "Legacy Documentation Project", cat: "Episcopal", desc: "Monique Gonzalez Session" },
+    { q: 3, date: "2026-08-25", title: "International Exchange Program", cat: "Episcopal", desc: "Campus Ministry" },
+    { q: 3, date: "2026-08-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    { q: 3, date: "2026-09-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 3, date: "2026-09-09", title: "Merapelo Convention", cat: "Episcopal", desc: "West, Orangia & Mokone" },
+    { q: 3, date: "2026-09-11", title: "ANNUAL CONVENTION", cat: "Conference", desc: "Main Conference Event" },
+    { q: 3, date: "2026-09-12", title: "Technology Training 3", cat: "Technology", desc: "Website Mgt & Content Creation" },
+    { q: 3, date: "2026-09-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+    { q: 3, date: "2026-09-30", title: "Parliamentary Roundtable", cat: "Episcopal", desc: "Parliamentarian Session" },
+    { q: 3, date: "2026-09-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-            // QUARTER 4 - OCT/NOV/DEC
-            { q: 4, date: "2026-10-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 4, date: "2026-10-07", title: "Annual Conference", cat: "Conference", desc: "PPC Oct 7-11" },
-            { q: 4, date: "2026-10-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-            { q: 4, date: "2026-10-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-            { q: 4, date: "2026-11-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 4, date: "2026-11-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-            { q: 4, date: "2026-11-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-            { q: 4, date: "2026-12-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-            { q: 4, date: "2026-12-15", title: "VR&N: The Talk", cat: "Conference", desc: "Year-end Finale" },
-            { q: 4, date: "2026-12-31", title: "Financial Savvy", cat: "Conference", desc: "Annual Financial Close" }
-        ];
+    // QUARTER 4 - OCT/NOV/DEC
+    { q: 4, date: "2026-10-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 4, date: "2026-10-07", title: "Annual Conference", cat: "Conference", desc: "PPC Oct 7-11" },
+    { q: 4, date: "2026-10-14", title: "Save Smart, Share Kind", cat: "Episcopal", desc: "Allen Star Coordinators" },
+    { q: 4, date: "2026-10-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+    { q: 4, date: "2026-10-18", title: "AI-based Information System Launch", cat: "Technology", desc: "Trained on YPD & AME documents" },
+    { q: 4, date: "2026-10-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    { q: 4, date: "2026-11-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 4, date: "2026-11-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+    { q: 4, date: "2026-11-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+    { q: 4, date: "2026-12-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+    { q: 4, date: "2026-12-15", title: "VR&N: The Talk", cat: "Conference", desc: "Year-end Finale" },
+    { q: 4, date: "2026-12-22", title: "Holiday Hangout", cat: "Episcopal", desc: "Allen Star Coordinators" },
+    { q: 4, date: "2026-12-31", title: "Financial Savvy", cat: "Conference", desc: "Annual Financial Close" }
+];
 
         let currentQ = 1;
 
@@ -273,4 +314,5 @@
     </script>
 </body>
 </html>
+
 
