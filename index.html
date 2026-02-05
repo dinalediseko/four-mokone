@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4M YPD 2026 Calendar</title>
+    <title>YPD 2026 Integrated Projects Calendar</title>
+    <link rel="icon" href="images/4m logo.png" type="image">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Library for PDF Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -13,39 +16,153 @@
             --white: #FAF2E1;
             --gold: #E8B838;
         }
+
         body {
             background-color: var(--white);
             color: var(--green);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
         }
-        .bg-green-primary { background-color: var(--green); }
-        .bg-gold-primary { background-color: var(--gold); }
-        .text-green-primary { color: var(--green); }
-        
+
+        .bg-green-primary {
+            background-color: var(--green);
+        }
+
+        .bg-gold-primary {
+            background-color: var(--gold);
+        }
+
+        .text-green-primary {
+            color: var(--green);
+        }
+
         .tab-active {
             background-color: var(--gold);
             color: var(--green);
             font-weight: bold;
             border-bottom: 4px solid var(--green);
         }
+
         .event-card {
             border-left: 5px solid transparent;
             transition: all 0.2s ease;
         }
+
         .event-card:hover {
             transform: translateY(-2px);
         }
-        .event-episcopal { border-left-color: var(--gold); background-color: white; }
-        .event-conference { border-left-color: var(--green); background-color: white; }
-        
-        .tabs-container::-webkit-scrollbar { display: none; }
-        .tabs-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .event-episcopal {
+            border-left-color: var(--gold);
+            background-color: white;
+        }
+
+        .event-conference {
+            border-left-color: var(--green);
+            background-color: white;
+        }
+
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tabs-container {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Ensure content is above the canvas */
+        .content-container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Custom styles for form input focus */
+        .form-input {
+            background-color: rgba(1, 49, 31, 0.8);
+            border-color: rgba(196, 168, 88, 0.5);
+            color: #f1f0eb;
+        }
+
+        .form-input::placeholder {
+            color: rgba(241, 240, 235, 0.6);
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(196, 168, 88, 0.4);
+            border-color: #c4a858;
+        }
+
+        /* Custom Button Style */
+        .cta-button {
+            background-color: #c4a858;
+            color: #01311f;
+        }
+
+        .cta-button:hover {
+            background-color: #dcbD6E;
+            /* Lighter gold for hover */
+        }
+
+        /* Success message styling */
+        #success-message {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .success-title {
+            color: #c4a858;
+        }
+
+        /* Custom Banner Styles */
+        .banner-bg {
+            background-color: var(--green);
+            color: var(--white);
+        }
+
+        .banner-accent {
+            background-color: var(--gold);
+            color: var(--green);
+        }
+
+        .banner-border {
+            border-color: var(--gold);
+        }
+
+        .banner-text-gold {
+            color: var(--gold);
+        }
+
+        .banner-sub-bg {
+            background-color: rgba(232, 184, 56, 0.1);
+            border-color: rgba(232, 184, 56, 0.3);
+        }
+
+        /* Footer Styles */
+        .footer-bg {
+            background-color: var(--green);
+            color: var(--white);
+            border-top: 4px solid var(--gold);
+        }
+
+        .footer-link {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
 
         @media print {
-            .no-print { display: none !important; }
+            .no-print {
+                display: none !important;
+            }
         }
-        
+
         /* Specific styling for the PDF export to maintain the look */
         .pdf-export-mode {
             background-color: var(--white) !important;
@@ -53,6 +170,7 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen">
 
     <div id="full-app-container">
@@ -60,32 +178,94 @@
         <header class="bg-green-primary text-[#FAF2E1] p-6 md:p-10 shadow-xl border-b-4 border-gold">
             <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
                 <!-- Logo Image -->
-                <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 flex items-center justify-center rounded-full border-2 border-[#c4a858] border-opacity-40 bg-[#c4a858] bg-opacity-10 overflow-hidden">
-                    <img src="images/4m logo.png" alt="Convention Logo" class="w-full h-full object-contain p-2" onerror="this.parentElement.innerHTML='<span class=\'text-gold-primary font-bold\'>YPD</span>'">
+                <div
+                    class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 flex items-center justify-center rounded-full border-2 border-[#c4a858] border-opacity-40 bg-[#c4a858] bg-opacity-10 overflow-hidden">
+                    <img src="images/4m logo.png" alt="Convention Logo" class="w-full h-full object-contain p-2"
+                        onerror="this.parentElement.innerHTML='<span class=\'text-gold-primary font-bold\'>YPD</span>'">
                 </div>
 
                 <h1 class="text-3xl md:text-5xl font-black uppercase tracking-wider mb-2">
                     God's creative power
                 </h1>
                 <p class="text-sm md:text-lg opacity-80 mb-6 max-w-2xl mx-auto italic">
-                    Inspired by Proverbs 16:9. <br>"In their hearts humans plan their course, but the Lord establishes their steps."
+                    Inspired by Proverbs 16:9. <br>"In their hearts humans plan their course, but the Lord establishes
+                    their steps."
                 </p>
-                
+
                 <div class="border-t border-gold/30 pt-4 w-full max-w-xl">
                     <h2 class="text-lg md:text-xl font-bold tracking-widest uppercase">19th Episcopal District</h2>
-                    <p class="text-gold-primary font-semibold text-xs md:text-sm">Mangena Maake Mokone Memorial Conference YPD</p>
+                    <p class="text-gold-primary font-semibold text-xs md:text-sm">Mangena Maake Mokone Memorial
+                        Conference YPD</p>
                 </div>
 
                 <div class="mt-8 no-print">
-                    <button onclick="exportToPDF()" class="bg-gold-primary text-green-primary px-6 py-2 rounded-full text-sm font-bold hover:bg-yellow-500 transition shadow-md flex items-center gap-2 mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    <button onclick="exportToPDF()"
+                        class="bg-gold-primary text-green-primary px-6 py-2 rounded-full text-sm font-bold hover:bg-yellow-500 transition shadow-md flex items-center gap-2 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
                         Download PDF Calendar
                     </button>
                 </div>
             </div>
         </header>
+
+        <!-- Sponsorship Banner -->
+        <div class="max-w-6xl mx-auto px-4 mt-8 no-print">
+            <div class="banner-bg rounded-xl p-8 mb-8 shadow-lg relative overflow-hidden border-2 banner-border">
+                <div class="relative z-10">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="text-center md:text-left flex-1">
+                            <div class="inline-block bg-opacity-20 bg-white text-xs font-bold px-3 py-1 rounded-full mb-3 uppercase tracking-widest border border-white border-opacity-30"
+                                style="color: var(--gold)">
+                                Support Opportunity
+                            </div>
+                            <h2 class="text-2xl md:text-3xl font-black mb-3" style="color: var(--white)">MPower A YPD
+                                Member! 🌟</h2>
+                            <p class="text-base md:text-lg leading-relaxed mb-4"
+                                style="color: var(--white); opacity: 0.9;">
+                                We are seeking dedicated event sponsors and generous donations to subsidize registration
+                                fees for our upcoming
+                                <span class="font-bold underline" style="text-decoration-color: var(--gold)">Leadership
+                                    Indaba/Seminar</span>.
+                                Your contribution directly empowers a young leader by making participation accessible.
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 banner-sub-bg p-4 rounded-lg border">
+                                <div>
+                                    <p class="banner-text-gold text-xs uppercase font-bold tracking-wider">Event Details
+                                    </p>
+                                    <p class="font-semibold text-sm" style="color: var(--white)">24 – 27 April 2026</p>
+                                    <p class="text-sm" style="color: var(--white); opacity: 0.8;">Castle Bush Camp</p>
+                                </div>
+                                <div>
+                                    <p class="banner-text-gold text-xs uppercase font-bold tracking-wider">Sponsorship
+                                        Goal
+                                    </p>
+                                    <p class="font-semibold text-sm" style="color: var(--white)">R800 per Member</p>
+                                    <p class="text-sm" style="color: var(--white); opacity: 0.8;">Full or partial
+                                        subsidies
+                                        welcome</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center gap-3">
+                            <a href="mailto:mpoweredmokoneconference@gmail.com?bcc=neomannya08@gmail.com,vovlamas@gmail.com&subject=MPowering%20Mokone"
+                                class="banner-accent px-8 py-3 rounded-full font-black text-lg hover:opacity-90 transition-all transform hover:scale-105 shadow-xl inline-block text-center no-underline flex items-center justify-center">
+                                Donate Now
+                            </a>
+                            <p class="text-xs italic" style="color: var(--gold)">Every Rand makes a difference</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Decorative elements -->
+                <div class="absolute -right-12 -bottom-12 w-48 h-48 rounded-full opacity-10"
+                    style="background-color: var(--gold)"></div>
+                <div class="absolute -left-8 -top-8 w-24 h-24 rounded-full opacity-5"
+                    style="background-color: var(--white)"></div>
+            </div>
+        </div>
 
         <!-- Legend -->
         <div class="max-w-6xl mx-auto px-4 mt-6 no-print">
@@ -103,11 +283,17 @@
 
         <!-- Navigation Tabs -->
         <nav class="max-w-6xl mx-auto px-2 mt-6 no-print">
-            <div class="tabs-container flex overflow-x-auto gap-1 border-b border-green-primary/10 px-2 justify-start md:justify-center">
-                <button onclick="showQuarter(1)" id="tab1" class="whitespace-nowrap px-6 py-3 rounded-t-xl transition text-sm tab-active">Q1: Jan - Mar</button>
-                <button onclick="showQuarter(2)" id="tab2" class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q2: Apr - Jun</button>
-                <button onclick="showQuarter(3)" id="tab3" class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q3: Jul - Sep</button>
-                <button onclick="showQuarter(4)" id="tab4" class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q4: Oct - Dec</button>
+            <div
+                class="tabs-container flex overflow-x-auto gap-1 border-b border-green-primary/10 px-2 justify-start md:justify-center">
+                <button onclick="showQuarter(1)" id="tab1"
+                    class="whitespace-nowrap px-6 py-3 rounded-t-xl transition text-sm tab-active">Q1: Jan -
+                    Mar</button>
+                <button onclick="showQuarter(2)" id="tab2"
+                    class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q2: Apr - Jun</button>
+                <button onclick="showQuarter(3)" id="tab3"
+                    class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q3: Jul - Sep</button>
+                <button onclick="showQuarter(4)" id="tab4"
+                    class="px-6 py-3 rounded-t-xl transition text-sm whitespace-nowrap">Q4: Oct - Dec</button>
             </div>
         </nav>
 
@@ -116,108 +302,148 @@
             <div id="calendar-view" class="grid gap-6">
                 <!-- Content Injected via JS -->
             </div>
-        </main>
+
+            <!-- Registration Form Section
+            <div id="registration-section" class="w-full max-w-md mx-auto">
+                <h2 class="text-xl font-bold mb-4">Be the First to Know!</h2>
+                <p class="opacity-80 mb-6">Subscribe for exclusive content</p>
+                <form id="registration-form" class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required
+                        class="form-input flex-grow border rounded-md py-3 px-4 transition-all duration-300">
+                    <button type="submit"
+                        class="cta-button text-white font-bold py-3 px-8 rounded-md transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Subscribe
+                    </button>
+                </form>
+            </div>
+        -->
+
+            <!-- Success Message Section
+            <div id="success-message" class="hidden opacity-0 w-full max-w-md mx-auto p-6 rounded-lg countdown-box">
+                <h2 class="text-2xl font-bold mb-2 success-title">Thank You!</h2>
+                <p class="opacity-90">You're on the list! Registrations for the Leadership Indaba/Seminar </br> on the
+                    24-27 April 2026 are open!</p>
+            </div>
+        -->
+
+            <!-- Error Message Section 
+            <div id="error-message"
+                class="hidden opacity-0 w-full max-w-md mx-auto p-6 rounded-lg bg-red-900 border border-red-700">
+                <h2 class="text-2xl font-bold mb-2 text-red-300">Oops!</h2>
+                <p class="opacity-90">Something went wrong. Please try again later.</p>
+            </div>
+            -->
+
+    </div>
+    </div>
+    </main>
+    <!-- Footer -->
+    <footer class="footer-bg py-8 text-center mt-auto no-print">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="mb-2">&copy; 2026 Mangena Maake Mokone Memorial Conference YPD. All rights reserved.</p>
+            <p class="text-sm opacity-90">Designed by <a href="https://portfolio.dseikou.co.za" target="_blank"
+                    class="footer-link">D'SEIKOU</a></p>
+        </div>
+    </footer>
     </div>
 
     <script>
         const events = [
-    // QUARTER 1 - JAN
-    { q: 1, date: "2026-01-30", title: "Adopts a School Project Relaunch", cat: "Conference", desc: "Membership & Outreach Initiative" },
-    { q: 1, date: "2026-01-30", title: "CONFERENCE PLANNING MEETING", cat: "Conference", desc: "Executive Session for 2026 Roadmap" },
-    
-    // QUARTER 1 - FEB
-    { q: 1, date: "2026-02-04", title: "Educational & Job Support Group", cat: "Conference", desc: "Group establishment for opportunities" },
-    { q: 1, date: "2026-02-08", title: "Self-Denial Promotion", cat: "Conference", desc: "Component-wide awareness drive" },
-    { q: 1, date: "2026-02-11", title: "Stars & Sunshine Faith Fun day", cat: "Episcopal", desc: "Allen Star Coordinators" },
-    { q: 1, date: "2026-02-25", title: "Leadership Incubator", cat: "Conference", desc: "PPC Training Series" },
-    { q: 1, date: "2026-02-16", title: "Minutes Writing Masterclass", cat: "Episcopal", desc: "Recording Secretaries Training" },
-    { q: 1, date: "2026-02-18", title: "Internal Self-Denial Contest Begins", cat: "Conference", desc: "Internal Conference-wide Contest" },
-    { q: 1, date: "2026-02-18", title: "Memorial Service Workshop", cat: "Episcopal", desc: "Monique Gonzalez Session" },
-    { q: 1, date: "2026-02-25", title: "Debate Series: Group 1", cat: "Episcopal", desc: "Membership & Outreach Debate" },
-    { q: 1, date: "2026-02-25", title: "Little Stars, Big Dreams", cat: "Episcopal", desc: "Allen Star Coordinators" },
-    { q: 1, date: "2026-02-25", title: "Teenage Pregnancy Awareness", cat: "Episcopal", desc: "3rd Vice President (TBC)" },
-    { q: 1, date: "2026-02-26", title: "Committee Revival Workshop", cat: "Episcopal", desc: "2nd Vice President" },
-    { q: 1, date: "2026-02-27", title: "YPD Boutique Relaunch", cat: "Conference", desc: "Official YPD Boutique Relaunch" },
-    { q: 1, date: "2026-02-28", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            // QUARTER 1 - JAN
+            { q: 1, date: "2026-01-30", title: "Adopts a School Project Relaunch", cat: "Conference", desc: "Membership & Outreach Initiative" },
+            { q: 1, date: "2026-01-30", title: "CONFERENCE PLANNING MEETING", cat: "Conference", desc: "Executive Session for 2026 Roadmap" },
+            
+            // QUARTER 1 - FEB
+            { q: 1, date: "2026-02-04", title: "Educational & Job Support Group", cat: "Conference", desc: "Group establishment for opportunities" },
+            { q: 1, date: "2026-02-08", title: "Self-Denial Promotion", cat: "Conference", desc: "Component-wide awareness drive" },
+            { q: 1, date: "2026-02-11", title: "Stars & Sunshine Faith Fun day", cat: "Episcopal", desc: "Allen Star Coordinators" },
+            { q: 1, date: "2026-02-25", title: "Leadership Incubator", cat: "Conference", desc: "PPC Training Series" },
+            { q: 1, date: "2026-02-16", title: "Minutes Writing Masterclass", cat: "Episcopal", desc: "Recording Secretaries Training" },
+            { q: 1, date: "2026-02-18", title: "Internal Self-Denial Contest Begins", cat: "Conference", desc: "Internal Conference-wide Contest" },
+            { q: 1, date: "2026-02-18", title: "Memorial Service Workshop", cat: "Episcopal", desc: "Monique Gonzalez Session" },
+            { q: 1, date: "2026-02-21", title: "Little Stars, Big Dreams", cat: "Episcopal", desc: "Allen Star Coordinators" },
+            { q: 1, date: "2026-02-25", title: "Teenage Pregnancy Awareness", cat: "Episcopal", desc: "3rd Vice President (TBC)" },
+            { q: 1, date: "2026-02-26", title: "Committee Revival Workshop", cat: "Episcopal", desc: "2nd Vice President" },
+            { q: 1, date: "2026-02-27", title: "YPD Boutique Relaunch", cat: "Conference", desc: "Official YPD Boutique Relaunch" },
+            { q: 1, date: "2026-02-28", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-    // QUARTER 1 - MAR
-    { q: 1, date: "2026-03-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 1, date: "2026-03-03", title: "Internal Self-Denial Contest Ends", cat: "Conference", desc: "Final day of internal contest" },
-    { q: 1, date: "2026-03-05", title: "Self-Denial Promotion", cat: "Conference", desc: "Secondary promotion drive" },
-    { q: 1, date: "2026-03-07", title: "Leadership Retreat", cat: "Conference", desc: "PPC Full-day Event" },
-    { q: 1, date: "2026-03-14", title: "Technology Training 1", cat: "Conference", desc: "Canva, Zoom, Social Media Ethics" },
-    { q: 1, date: "2026-03-15", title: "VR&N: The Talk", cat: "Conference", desc: "Quarterly Voter Rights Discussion" },
-    { q: 1, date: "2026-03-25", title: "Donation Forms Promotion", cat: "Conference", desc: "Promotion for Seminar Leadership Indaba Donation forms" },
-    { q: 1, date: "2026-03-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            // QUARTER 1 - MAR
+            { q: 1, date: "2026-03-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 1, date: "2026-03-03", title: "Internal Self-Denial Contest Ends", cat: "Conference", desc: "Final day of internal contest" },
+            { q: 1, date: "2026-03-04", title: "Debate Series: Group 1", cat: "Conference", desc: "Membership & Outreach Debate" },
+            { q: 1, date: "2026-03-05", title: "Self-Denial Promotion", cat: "Conference", desc: "Secondary Self-Denial promotion drive" },
+            { q: 1, date: "2026-03-14", title: "Technology Training 1", cat: "Conference", desc: "Canva, Zoom, Social Media Ethics" },
+            { q: 1, date: "2026-03-15", title: "VR&N: The Talk", cat: "Conference", desc: "Quarterly Voter Rights Discussion" },
+            { q: 1, date: "2026-03-25", title: "Donation Forms Promotion", cat: "Conference", desc: "Promotion for Seminar Leadership Indaba Donation forms" },
+            { q: 1, date: "2026-03-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-    // QUARTER 2 - APR
-    { q: 2, date: "2026-04-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 2, date: "2026-04-08", title: "Parliamentary Simulation", cat: "Episcopal", desc: "Leadership Practicum" },
-    { q: 2, date: "2026-04-14", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-    { q: 2, date: "2026-04-15", title: "Merapelo Seminar", cat: "Episcopal", desc: "Natal, West & Mokone (Worship Dir.)" },
-    { q: 2, date: "2026-04-15", title: "My Body, My Space Safety", cat: "Episcopal", desc: "Allen Star Coordinators" },
-    { q: 2, date: "2026-04-22", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 1" },
-    { q: 2, date: "2026-04-24", title: "LEADERSHIP INDABA / KNOW YOUR CONSTITUTION", cat: "Conference", desc: "Indaba Launch & Know Your Rights" },
-    { q: 2, date: "2026-04-25", title: "Youth Explosion Revival", cat: "Episcopal", desc: "Membership Outreach" },
-    { q: 2, date: "2026-04-26", title: "Self-Denial Final Promotion", cat: "Special", desc: "Pre-program drive" },
-    { q: 2, date: "2026-04-29", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 2" },
-    { q: 2, date: "2026-04-30", title: "Conference YPD Website Launch", cat: "Technology", desc: "Design & Development Completion" },
-    { q: 2, date: "2026-04-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            // QUARTER 2 - APR
+            { q: 2, date: "2026-04-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 2, date: "2026-04-08", title: "Parliamentary Simulation", cat: "Episcopal", desc: "Leadership Practicum" },
+            { q: 2, date: "2026-04-14", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 2, date: "2026-04-15", title: "Merapelo Seminar", cat: "Episcopal", desc: "Natal, West & Mokone (Worship Dir.)" },
+            { q: 2, date: "2026-04-15", title: "My Body, My Space Safety", cat: "Episcopal", desc: "Allen Star Coordinators" },
+            { q: 2, date: "2026-04-22", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 1" },
+            { q: 2, date: "2026-04-24", title: "LEADERSHIP INDABA / KNOW YOUR CONSTITUTION", cat: "Conference", desc: "Indaba Launch & Know Your Rights" },
+            { q: 2, date: "2026-04-25", title: "Youth Explosion Revival", cat: "Episcopal", desc: "Membership Outreach" },
+            { q: 2, date: "2026-04-26", title: "Self-Denial Final Promotion", cat: "Conference", desc: "Pre-program drive" },
+            { q: 2, date: "2026-04-29", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 2" },
+            { q: 2, date: "2026-04-30", title: "Conference YPD Website Launch", cat: "Conference", desc: "Design & Development Completion" },
+            { q: 2, date: "2026-04-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-    // QUARTER 2 - MAY/JUN
-    { q: 2, date: "2026-05-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 2, date: "2026-05-06", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 3" },
-    { q: 2, date: "2026-05-06", title: "Merapelo Seminar", cat: "Episcopal", desc: "Orangia & East (Worship Dir.)" },
-    { q: 2, date: "2026-05-07", title: "Self-Denial Program Begins", cat: "Special", desc: "May 7-14 Special Program" },
-    { q: 2, date: "2026-05-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-    { q: 2, date: "2026-05-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-    { q: 2, date: "2026-06-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 2, date: "2026-06-06", title: "Technology Guidelines", cat: "Technology", desc: "Area & Local level establishing guide" },
-    { q: 2, date: "2026-06-13", title: "Technology Training 2", cat: "Technology", desc: "Email Etiquette & Cybersecurity" },
-    { q: 2, date: "2026-06-15", title: "Campus Ministry Establishment", cat: "Episcopal", desc: "Establishing ministry near varsity campuses" },
-    { q: 2, date: "2026-06-15", title: "Parliamentary Circle Meeting", cat: "Episcopal", desc: "Mid-June Parliamentarian session" },
-    { q: 2, date: "2026-06-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            // QUARTER 2 - MAY/JUN
+            { q: 2, date: "2026-05-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 2, date: "2026-05-06", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 3" },
+            { q: 2, date: "2026-05-06", title: "Merapelo Seminar", cat: "Episcopal", desc: "Orangia & East (Worship Dir.)" },
+            { q: 2, date: "2026-05-07", title: "Self-Denial Program Begins", cat: "Conference", desc: "May 7-14 Program" },
+            { q: 2, date: "2026-05-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 2, date: "2026-05-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 2, date: "2026-06-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 2, date: "2026-06-06", title: "Technology Guidelines", cat: "Conference", desc: "Area & Local level establishing guide" },
+            { q: 2, date: "2026-06-13", title: "Technology Training 2", cat: "Conference", desc: "Email Etiquette & Cybersecurity" },
+            { q: 2, date: "2026-06-15", title: "Campus Ministry Establishment", cat: "Episcopal", desc: "Establishing ministry near varsity campuses" },
+            { q: 2, date: "2026-06-15", title: "Parliamentary Circle Meeting", cat: "Episcopal", desc: "Mid-June Parliamentarian session" },
+            { q: 2, date: "2026-06-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-    // QUARTER 3 - JUL/AUG/SEP
-    { q: 3, date: "2026-07-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 3, date: "2026-07-01", title: "Educational Capacity Building", cat: "Episcopal", desc: "Workshop for members" },
-    { q: 3, date: "2026-07-02", title: "LTI (Leadership Training)", cat: "Conference", desc: "PPC July 2-5" },
-    { q: 3, date: "2026-07-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-    { q: 3, date: "2026-07-29", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 4" },
-    { q: 3, date: "2026-07-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-    { q: 3, date: "2026-08-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 3, date: "2026-08-11", title: "Donation Forms Promotion", cat: "Conference", desc: "Promotion for Annual Convention" },
-    { q: 3, date: "2026-08-12", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 5" },
-    { q: 3, date: "2026-08-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-    { q: 3, date: "2026-08-19", title: "Merapelo Convention", cat: "Episcopal", desc: "East & Natal (Worship Director)" },
-    { q: 3, date: "2026-08-19", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 6" },
-    { q: 3, date: "2026-08-20", title: "Legacy Documentation Project", cat: "Episcopal", desc: "Monique Gonzalez Session" },
-    { q: 3, date: "2026-08-25", title: "International Exchange Program", cat: "Episcopal", desc: "Campus Ministry" },
-    { q: 3, date: "2026-08-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-    { q: 3, date: "2026-09-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 3, date: "2026-09-09", title: "Merapelo Convention", cat: "Episcopal", desc: "West, Orangia & Mokone" },
-    { q: 3, date: "2026-09-11", title: "ANNUAL CONVENTION", cat: "Conference", desc: "Main Conference Event" },
-    { q: 3, date: "2026-09-12", title: "Technology Training 3", cat: "Technology", desc: "Website Mgt & Content Creation" },
-    { q: 3, date: "2026-09-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-    { q: 3, date: "2026-09-30", title: "Parliamentary Roundtable", cat: "Episcopal", desc: "Parliamentarian Session" },
-    { q: 3, date: "2026-09-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            // QUARTER 3 - JUL/AUG/SEP
+            { q: 3, date: "2026-07-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 3, date: "2026-07-01", title: "Educational Capacity Building", cat: "Episcopal", desc: "Workshop for members" },
+            { q: 3, date: "2026-07-02", title: "LTI (Leadership Training)", cat: "Episcopal", desc: "PPC July 2-5" },
+            { q: 3, date: "2026-07-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 3, date: "2026-07-29", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 4" },
+            { q: 3, date: "2026-07-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 3, date: "2026-08-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 3, date: "2026-08-11", title: "Donation Forms Promotion", cat: "Conference", desc: "Promotion for Annual Convention" },
+            { q: 3, date: "2026-08-12", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 5" },
+            { q: 3, date: "2026-08-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 3, date: "2026-08-19", title: "Merapelo Convention", cat: "Episcopal", desc: "East & Natal (Worship Director)" },
+            { q: 3, date: "2026-08-19", title: "District Wide Debate Series", cat: "Episcopal", desc: "3rd Vice President - Session 6" },
+            { q: 3, date: "2026-08-20", title: "Legacy Documentation Project", cat: "Episcopal", desc: "Monique Gonzalez Session" },
+            { q: 3, date: "2026-08-25", title: "International Exchange Program", cat: "Episcopal", desc: "Campus Ministry" },
+            { q: 3, date: "2026-08-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 3, date: "2026-09-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 3, date: "2026-09-09", title: "Merapelo Convention", cat: "Episcopal", desc: "West, Orangia & Mokone" },
+            { q: 3, date: "2026-09-11", title: "ANNUAL CONVENTION", cat: "Conference", desc: "Annual Conference Convention" },
+            { q: 3, date: "2026-09-12", title: "Technology Training 3", cat: "Conference", desc: "Website Mgt & Content Creation" },
+            { q: 3, date: "2026-09-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 3, date: "2026-09-30", title: "Parliamentary Roundtable", cat: "Episcopal", desc: "Parliamentarian Session" },
+            { q: 3, date: "2026-09-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
 
-    // QUARTER 4 - OCT/NOV/DEC
-    { q: 4, date: "2026-10-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 4, date: "2026-10-07", title: "Annual Conference", cat: "Conference", desc: "PPC Oct 7-11" },
-    { q: 4, date: "2026-10-14", title: "Save Smart, Share Kind", cat: "Episcopal", desc: "Allen Star Coordinators" },
-    { q: 4, date: "2026-10-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-    { q: 4, date: "2026-10-18", title: "AI-based Information System Launch", cat: "Technology", desc: "Trained on YPD & AME documents" },
-    { q: 4, date: "2026-10-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-    { q: 4, date: "2026-11-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 4, date: "2026-11-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
-    { q: 4, date: "2026-11-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
-    { q: 4, date: "2026-12-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
-    { q: 4, date: "2026-12-15", title: "VR&N: The Talk", cat: "Conference", desc: "Year-end Finale" },
-    { q: 4, date: "2026-12-22", title: "Holiday Hangout", cat: "Episcopal", desc: "Allen Star Coordinators" },
-    { q: 4, date: "2026-12-31", title: "Financial Savvy", cat: "Conference", desc: "Annual Financial Close" }
-];
-
+            // QUARTER 4 - OCT/NOV/DEC
+            { q: 4, date: "2026-10-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 4, date: "2026-10-07", title: "Annual Conference", cat: "Conference", desc: "Oct 7-11" },
+            { q: 4, date: "2026-10-14", title: "Save Smart, Share Kind", cat: "Episcopal", desc: "Allen Star Coordinators" },
+            { q: 4, date: "2026-10-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 4, date: "2026-10-18", title: "AI-based Information System Launch", cat: "Conference", desc: "Trained on YPD & AME documents" },
+            { q: 4, date: "2026-10-31", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 4, date: "2026-11-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 4, date: "2026-11-15", title: "VR&N Revival Campaign", cat: "Conference", desc: "Monthly Drive" },
+            { q: 4, date: "2026-11-30", title: "Financial Savvy", cat: "Conference", desc: "Monthly Review" },
+            { q: 4, date: "2026-12-01", title: "Financial Savvy", cat: "Conference", desc: "Monthly Kickoff" },
+            { q: 4, date: "2026-12-15", title: "VR&N: The Talk", cat: "Conference", desc: "Year-end Finale" },
+            { q: 4, date: "2026-12-22", title: "Holiday Hangout", cat: "Episcopal", desc: "Allen Star Coordinators" },
+            { q: 4, date: "2026-12-31", title: "Financial Savvy", cat: "Conference", desc: "Annual Financial Close" }
+        ];
         let currentQ = 1;
 
         function showQuarter(q) {
@@ -228,20 +454,20 @@
             const container = document.getElementById('calendar-view');
             container.innerHTML = '';
 
-            const filteredEvents = events.filter(e => e.q === q).sort((a,b) => new Date(a.date) - new Date(b.date));
+            const filteredEvents = events.filter(e => e.q === q).sort((a, b) => new Date(a.date) - new Date(b.date));
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            
-            let startMonth = (q-1) * 3;
+
+            let startMonth = (q - 1) * 3;
             let targetMonths = monthNames.slice(startMonth, startMonth + 3);
 
             targetMonths.forEach(month => {
                 const monthEvents = filteredEvents.filter(e => new Date(e.date).getMonth() === monthNames.indexOf(month));
-                
+
                 if (monthEvents.length > 0) {
                     const monthSection = document.createElement('div');
                     monthSection.className = 'mb-8';
                     monthSection.innerHTML = `<h2 class="text-xl font-bold border-l-4 border-green-primary pl-3 mb-4 uppercase tracking-wider text-green-900">${month} 2026</h2>`;
-                    
+
                     const grid = document.createElement('div');
                     grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-4';
 
@@ -249,7 +475,7 @@
                         const card = document.createElement('div');
                         const isEpiscopal = ev.cat === 'Episcopal';
                         card.className = `event-card p-4 shadow-sm border border-stone-200 rounded-lg flex flex-col justify-between ${isEpiscopal ? 'event-episcopal' : 'event-conference'}`;
-                        
+
                         const dateObj = new Date(ev.date);
                         const day = dateObj.getDate();
 
@@ -257,7 +483,7 @@
                             <div class="flex justify-between items-start mb-2">
                                 <span class="text-[10px] font-black uppercase tracking-widest ${isEpiscopal ? 'text-yellow-600' : 'text-green-700'}">${ev.cat}</span>
                                 <div class="bg-green-primary text-white text-xs font-bold px-2 py-1 rounded">
-                                    ${day} ${month.substring(0,3)}
+                                    ${day} ${month.substring(0, 3)}
                                 </div>
                             </div>
                             <h3 class="font-bold text-green-900 leading-tight mb-1">${ev.title}</h3>
@@ -274,15 +500,15 @@
         async function exportToPDF() {
             // We export the entire container including the high-impact header
             const element = document.getElementById('full-app-container');
-            
+
             // Configuration for PDF
             const opt = {
                 margin: 0,
                 filename: `YPD_2026_Q${currentQ}_Calendar.pdf`,
                 image: { type: 'jpeg', quality: 1 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true, 
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
                     letterRendering: true,
                     scrollY: 0
                 },
@@ -292,7 +518,7 @@
             // Hide the download button and tabs during the export
             const noPrintElements = document.querySelectorAll('.no-print');
             noPrintElements.forEach(el => el.style.display = 'none');
-            
+
             try {
                 await html2pdf().set(opt).from(element).save();
             } catch (err) {
@@ -304,10 +530,55 @@
         }
 
         window.onload = () => showQuarter(1);
+
+        // --- Form Submission Logic ---
+        const registrationForm = document.getElementById('registration-form');
+        const registrationSection = document.getElementById('registration-section');
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        const submitButton = registrationForm.querySelector('button[type="submit"]');
+
+        // IMPORTANT: Replace this with your actual Google Apps Script Web App URL
+        const googleScriptURL = 'https://script.google.com/macros/s/AKfycbwWPfSX6SR4RyvKEF0EtO8xx120CIs-fP83V8EPikmsWSFKGQnfQvmCAphgdVzqMYDxdA/exec';
+
+        registrationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Disable button to prevent multiple submissions
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+
+            fetch(googleScriptURL, {
+                method: 'POST',
+                body: new FormData(registrationForm)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // If response is not ok, throw an error to be caught by the catch block
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === 'success') {
+                        // Show success message
+                        registrationSection.style.display = 'none';
+                        successMessage.classList.remove('hidden');
+                        setTimeout(() => successMessage.classList.remove('opacity-0'), 10);
+                    } else {
+                        // If the script returns an error, show the error message
+                        throw new Error(data.message || 'Submission failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    // Show error message
+                    registrationSection.style.display = 'none';
+                    errorMessage.classList.remove('hidden');
+                    setTimeout(() => errorMessage.classList.remove('opacity-0'), 10);
+                });
+        });
     </script>
 </body>
+
 </html>
-
-
-
-
