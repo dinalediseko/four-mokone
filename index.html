@@ -8,7 +8,6 @@
     <link rel="icon" href="images/4m logo.png" type="image">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Library for PDF Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
@@ -34,6 +33,14 @@
 
         .text-green-primary {
             color: var(--green);
+        }
+
+        .text-gold-primary {
+            color: var(--gold);
+        }
+
+        .border-gold-primary {
+            border-color: var(--gold);
         }
 
         .tab-active {
@@ -174,10 +181,8 @@
 <body class="min-h-screen">
 
     <div id="full-app-container">
-        <!-- Header -->
         <header class="bg-green-primary text-[#FAF2E1] p-6 md:p-10 shadow-xl border-b-4 border-gold">
             <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
-                <!-- Logo Image -->
                 <div
                     class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 flex items-center justify-center rounded-full border-2 border-[#c4a858] border-opacity-40 bg-[#c4a858] bg-opacity-10 overflow-hidden">
                     <img src="images/4m logo.png" alt="Convention Logo" class="w-full h-full object-contain p-2"
@@ -199,29 +204,30 @@
                 </div>
 
                 <div class="mt-8 no-print flex flex-col sm:flex-row justify-center items-center gap-4">
-    <button onclick="exportToPDF()"
-        class="bg-gold-primary text-green-primary px-6 py-2 rounded-full text-sm font-bold hover:bg-yellow-500 transition shadow-md flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
-        Download PDF Calendar
-    </button>
+                    
+                    <button onclick="exportToPDF()"
+                        class="bg-gold-primary text-green-primary px-6 py-2 rounded-full text-sm font-bold hover:bg-yellow-500 transition shadow-md flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download PDF Calendar
+                    </button>
 
-    <a href="https://selfdenial.4mypd.co.za/" target="_blank"
-        class="bg-[#FAF2E1] text-[#0A3A08] px-6 py-2 rounded-full text-sm font-bold hover:bg-white transition shadow-md flex items-center gap-2 border-2 border-[#E8B838]">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-        Self-Denial
-    </a>
-</div>
-            </div>
+                    <a href="https://yoursubdomain.yourwebsite.com" target="_blank"
+                        class="bg-transparent text-gold-primary border-2 border-gold-primary px-6 py-2 rounded-full text-sm font-bold hover:bg-gold-primary hover:text-green-primary transition shadow-md flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        Go to Contest Portal
+                    </a>
+
+                </div>
+                </div>
         </header>
 
-        <!-- Sponsorship Banner -->
         <div class="max-w-6xl mx-auto px-4 mt-8 no-print">
             <div class="banner-bg rounded-xl p-8 mb-8 shadow-lg relative overflow-hidden border-2 banner-border">
                 <div class="relative z-10">
@@ -268,7 +274,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Decorative elements -->
                 <div class="absolute -right-12 -bottom-12 w-48 h-48 rounded-full opacity-10"
                     style="background-color: var(--gold)"></div>
                 <div class="absolute -left-8 -top-8 w-24 h-24 rounded-full opacity-5"
@@ -276,7 +281,6 @@
             </div>
         </div>
 
-        <!-- Legend -->
         <div class="max-w-6xl mx-auto px-4 mt-6 no-print">
             <div class="flex flex-row justify-center gap-6 bg-white/50 p-3 rounded-xl border border-gold/30">
                 <div class="flex items-center gap-2">
@@ -290,7 +294,6 @@
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
         <nav class="max-w-6xl mx-auto px-2 mt-6 no-print">
             <div
                 class="tabs-container flex overflow-x-auto gap-1 border-b border-green-primary/10 px-2 justify-start md:justify-center">
@@ -306,47 +309,13 @@
             </div>
         </nav>
 
-        <!-- Calendar Content -->
         <main id="export-container" class="max-w-6xl mx-auto px-4 py-6 mb-20 bg-transparent">
             <div id="calendar-view" class="grid gap-6">
-                <!-- Content Injected via JS -->
-            </div>
+                </div>
 
-            <!-- Registration Form Section
-            <div id="registration-section" class="w-full max-w-md mx-auto">
-                <h2 class="text-xl font-bold mb-4">Be the First to Know!</h2>
-                <p class="opacity-80 mb-6">Subscribe for exclusive content</p>
-                <form id="registration-form" class="flex flex-col sm:flex-row gap-4">
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required
-                        class="form-input flex-grow border rounded-md py-3 px-4 transition-all duration-300">
-                    <button type="submit"
-                        class="cta-button text-white font-bold py-3 px-8 rounded-md transition-all duration-300 transform hover:scale-105 shadow-lg">
-                        Subscribe
-                    </button>
-                </form>
             </div>
-        -->
-
-            <!-- Success Message Section
-            <div id="success-message" class="hidden opacity-0 w-full max-w-md mx-auto p-6 rounded-lg countdown-box">
-                <h2 class="text-2xl font-bold mb-2 success-title">Thank You!</h2>
-                <p class="opacity-90">You're on the list! Registrations for the Leadership Indaba/Seminar </br> on the
-                    24-27 April 2026 are open!</p>
-            </div>
-        -->
-
-            <!-- Error Message Section 
-            <div id="error-message"
-                class="hidden opacity-0 w-full max-w-md mx-auto p-6 rounded-lg bg-red-900 border border-red-700">
-                <h2 class="text-2xl font-bold mb-2 text-red-300">Oops!</h2>
-                <p class="opacity-90">Something went wrong. Please try again later.</p>
-            </div>
-            -->
-
-    </div>
     </div>
     </main>
-    <!-- Footer -->
     <footer class="footer-bg py-8 text-center mt-auto no-print">
         <div class="max-w-6xl mx-auto px-4">
             <p class="mb-2">&copy; 2026 Mangena Maake Mokone Memorial Conference YPD. All rights reserved.</p>
@@ -545,51 +514,51 @@
         const registrationSection = document.getElementById('registration-section');
         const successMessage = document.getElementById('success-message');
         const errorMessage = document.getElementById('error-message');
-        const submitButton = registrationForm.querySelector('button[type="submit"]');
+        const submitButton = registrationForm?.querySelector('button[type="submit"]');
 
         // IMPORTANT: Replace this with your actual Google Apps Script Web App URL
         const googleScriptURL = 'https://script.google.com/macros/s/AKfycbwWPfSX6SR4RyvKEF0EtO8xx120CIs-fP83V8EPikmsWSFKGQnfQvmCAphgdVzqMYDxdA/exec';
 
-        registrationForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+        if(registrationForm) {
+            registrationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
 
-            // Disable button to prevent multiple submissions
-            submitButton.disabled = true;
-            submitButton.textContent = 'Submitting...';
+                // Disable button to prevent multiple submissions
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
 
-            fetch(googleScriptURL, {
-                method: 'POST',
-                body: new FormData(registrationForm)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        // If response is not ok, throw an error to be caught by the catch block
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
+                fetch(googleScriptURL, {
+                    method: 'POST',
+                    body: new FormData(registrationForm)
                 })
-                .then(data => {
-                    if (data.result === 'success') {
-                        // Show success message
+                    .then(response => {
+                        if (!response.ok) {
+                            // If response is not ok, throw an error to be caught by the catch block
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.result === 'success') {
+                            // Show success message
+                            registrationSection.style.display = 'none';
+                            successMessage.classList.remove('hidden');
+                            setTimeout(() => successMessage.classList.remove('opacity-0'), 10);
+                        } else {
+                            // If the script returns an error, show the error message
+                            throw new Error(data.message || 'Submission failed');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error!', error.message);
+                        // Show error message
                         registrationSection.style.display = 'none';
-                        successMessage.classList.remove('hidden');
-                        setTimeout(() => successMessage.classList.remove('opacity-0'), 10);
-                    } else {
-                        // If the script returns an error, show the error message
-                        throw new Error(data.message || 'Submission failed');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    // Show error message
-                    registrationSection.style.display = 'none';
-                    errorMessage.classList.remove('hidden');
-                    setTimeout(() => errorMessage.classList.remove('opacity-0'), 10);
-                });
-        });
+                        errorMessage.classList.remove('hidden');
+                        setTimeout(() => errorMessage.classList.remove('opacity-0'), 10);
+                    });
+            });
+        }
     </script>
 </body>
 
 </html>
-
-
